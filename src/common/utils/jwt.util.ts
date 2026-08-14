@@ -30,7 +30,9 @@ export const verifyAccessToken = (token: string): JwtPayload => {
     };
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      throw new UnauthorizedError('Access token has expired', { expiredAt: error.expiredAt });
+      throw new UnauthorizedError('Access token has expired', {
+        expiredAt: (error as jwt.TokenExpiredError).expiredAt
+      });
     }
     throw new UnauthorizedError('Invalid access token');
   }
@@ -46,7 +48,9 @@ export const verifyRefreshToken = (token: string): JwtPayload => {
     };
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      throw new UnauthorizedError('Refresh token has expired', { expiredAt: error.expiredAt });
+      throw new UnauthorizedError('Refresh token has expired', {
+        expiredAt: (error as jwt.TokenExpiredError).expiredAt
+      });
     }
     throw new UnauthorizedError('Invalid refresh token');
   }
